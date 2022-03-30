@@ -47,7 +47,6 @@ class _StartupScreenState extends State<StartupScreen> {
     super.initState();
     fetchToken().then((token) => setState(() => _token = token));
     flutterTts.speak("Welcome to Guide Me App");
-
     // _initSpeech();
   }
 
