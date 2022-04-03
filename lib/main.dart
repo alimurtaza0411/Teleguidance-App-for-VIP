@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'constants/colors.dart';
 import 'navigator_key.dart';
-import 'screens/splash_screen.dart';
+import 'screens/guidelines.dart';
 
 void main() async {
   // Load Environment variables
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
               primaryColor: primaryColor,
               backgroundColor: secondaryColor,
             ),
-            home: const SplashScreen(),
+            home: const guideline(),
             navigatorKey: navigatorKey,
           );
         }
@@ -59,12 +58,6 @@ class MyApp extends StatelessWidget {
         );
       },
     );
-
-
-
-
-
-
 
 
 
