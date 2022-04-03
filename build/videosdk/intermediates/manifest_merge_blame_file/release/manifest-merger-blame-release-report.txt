@@ -1,0 +1,31 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="live.videosdk.videosdk" >
+4
+5    <uses-sdk android:minSdkVersion="23" />
+5-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+6
+7    <application>
+7-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:4:5-12:17
+8        <service
+8-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:5-163
+9            android:name="com.pravera.flutter_foreground_task.service.ForegroundService"
+9-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:14-90
+10            android:enabled="true"
+10-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:139-161
+11            android:foregroundServiceType="mediaProjection" />
+11-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:91-138
+12
+13        <!--
+14         Don't delete the meta-data below.
+15             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+16        -->
+17        <meta-data
+17-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:9:5-68
+18            android:name="flutterEmbedding"
+18-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:9:16-47
+19            android:value="2" />
+19-->C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:9:48-65
+20    </application>
+21
+22</manifest>

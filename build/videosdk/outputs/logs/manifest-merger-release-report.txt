@@ -1,0 +1,35 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:1:1-13:12
+INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:1:1-13:12
+INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:1:1-13:12
+	package
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:2:3-35
+		INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+		INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:1:11-69
+application
+ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:4:5-12:17
+service#com.pravera.flutter_foreground_task.service.ForegroundService
+ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:5-163
+	android:enabled
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:139-161
+	android:foregroundServiceType
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:91-138
+	android:name
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:5:14-90
+meta-data#flutterEmbedding
+ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:9:5-68
+	android:value
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:9:48-65
+	android:name
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml:9:16-47
+uses-sdk
+INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+		ADDED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
+		INJECTED from C:\tools\flutter\.pub-cache\hosted\pub.dartlang.org\videosdk-0.0.10\android\src\main\AndroidManifest.xml
