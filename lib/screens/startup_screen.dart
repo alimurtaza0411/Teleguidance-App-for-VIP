@@ -261,6 +261,8 @@ class _StartupScreenState extends State<StartupScreen> {
             setState(() => islistening = listening);
             if(!listening){
               if(text=="connect"){
+                flutterTts.speak("There are 114 registered volunteers available to assist you");
+                flutterTts.speak("If you need help, tap on mic and say help anytime");
                 startCall();
               }
               else if(text=="settings"){

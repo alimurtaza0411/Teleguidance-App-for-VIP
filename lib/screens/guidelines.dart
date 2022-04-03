@@ -32,7 +32,7 @@ class _guidelineState extends State<guideline> {
   
   You will need to signup or login to use this app.
   
-  Tap and speak connect to start the calling. Once done and connected, a volunteer will connect you.
+  Tap and speak connect to start the calling. Once done, a volunteer will connect you.
   
   Press the mic and speak 'Help' to get help anytime.''',maxLines: 20, style: TextStyle(fontSize: 26.0 ,fontWeight:FontWeight.bold,color: Colors.white70) , );
   @override
