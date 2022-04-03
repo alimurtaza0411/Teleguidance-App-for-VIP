@@ -274,6 +274,10 @@ class _StartupScreenState extends State<StartupScreen> {
                     MaterialPageRoute(
                         builder: (context) => ProfileScreen()));
               }
+              else
+                {
+                  flutterTts.speak("Sorry couldn't hear you");
+                }
             }
           }
   );

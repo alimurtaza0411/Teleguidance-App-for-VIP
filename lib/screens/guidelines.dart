@@ -17,25 +17,24 @@ class _guidelineState extends State<guideline> {
   String guide='''
   
   
-  
+  Welcome to GuideMe app
   This app is made for people who need assistance during calling.
   
   You will need to signup or login to use this app.
   
   Tap and speak connect to start the calling. Once done and connected, a volunteer will connect you.
   
-  You can also access settings and profile through voice from the previous step.''';
+  Press the mic and speak 'Help' to get help anytime''';
   Text guidelines= new Text('''                            Guidelines
   
-  
-  
+   Welcome to GuideMe app
   This app is made for people who need assistance during calling.
- 
+  
   You will need to signup or login to use this app.
- 
+  
   Tap and speak connect to start the calling. Once done and connected, a volunteer will connect you.
- 
-  You can also access settings and profile through voice from the previous step.''',maxLines: 20, style: TextStyle(fontSize: 26.0 ,fontWeight:FontWeight.bold,color: Colors.white70) , );
+  
+  Press the mic and speak 'Help' to get help anytime.''',maxLines: 20, style: TextStyle(fontSize: 26.0 ,fontWeight:FontWeight.bold,color: Colors.white70) , );
   @override
   void initState() {
     super.initState();
