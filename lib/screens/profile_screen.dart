@@ -9,12 +9,13 @@ import 'package:videosdk_flutter_example/screens/startup_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   final flutterTts = FlutterTts();
+  _speech = SpeechToText();
   @override
   void initState(){
   }
   @override
   Widget build(BuildContext context) {
-    flutterTts.speak("You are in Profile");
+    flutterTts.speak("You are in Profile..... Shiv Dube.     Calls 5.    Active for 2 hrs.    Your bio reads:  My name is Shiv Dube and I am  a partial Blind.  I am B Tech 3rd year I.T student. If you want to edit your bio say the word edit after clicking on mic");
     void logout() async {
       await FirebaseAuth.instance.signOut();
       Navigator.push(context,
@@ -51,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                         height: 10.0,
                       ),
                       const Text(
-                        "Alice",
+                        "Shiv Dube",
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
@@ -86,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      "100",
+                                      "5",
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.black,
@@ -111,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      "120 hrs",
+                                      "2 hrs",
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.black,
@@ -147,8 +148,8 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text('My name is Alice and I am  a Blind .\n'
-                      'I work in blind school as a teacher',
+                  Text('My name is Shiv Dube and I am  a partial Blind .\n'
+                      'I am B Tech 3rd year I.T student',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontStyle: FontStyle.italic,
@@ -228,6 +229,22 @@ class ProfileScreen extends StatelessWidget {
                 icon: const Icon(Icons.logout),
               ),
             ],
+          ),
+          Container(
+            color: Colors.blueAccent,
+            child: IconButton(
+              onPressed: () async{
+                islistening = true;
+                await toggle();
+                islistening = false;
+              },
+              tooltip: 'Listen',
+              icon: Icon(islistening
+                  ? Icons.mic
+                  : Icons.mic_off),
+              padding: EdgeInsets.all(100.0),
+
+            ),
           ),
         ],
       ),

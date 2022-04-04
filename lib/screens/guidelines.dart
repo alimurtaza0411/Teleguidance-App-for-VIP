@@ -17,20 +17,16 @@ class _guidelineState extends State<guideline> {
   String guide='''
   
   
-  Welcome to GuideMe app
-  This app is made for people who need assistance during calling.
-  
-  You will need to signup or login to use this app.
-  
-  Tap and speak connect to start the calling. Once done and connected, a volunteer will connect you.
+  Welcome to Guide Me app
+  This app is made for people who need assistance in their day to day activities.
+   
+  Tap and speak connect to start the calling. Once done, a volunteer will connect you.
   
   Press the mic and speak 'Help' to get help anytime''';
   Text guidelines= new Text('''                            Guidelines
   
-   Welcome to GuideMe app
-  This app is made for people who need assistance during calling.
-  
-  You will need to signup or login to use this app.
+   Welcome to Guide Me app
+  This app is made for people who need assistance in their day to day activities.
   
   Tap and speak connect to start the calling. Once done, a volunteer will connect you.
   
@@ -54,6 +50,7 @@ class _guidelineState extends State<guideline> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: const Color.fromRGBO(10, 13, 44, 1),
       body: Stack(
         children: [

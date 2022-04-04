@@ -17,10 +17,39 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-class SpeechApi {
-  static final _speech = SpeechToText();
 
-  static Future<bool> toggleRecording({
+
+// Meeting Screen
+class MeetingScreen extends StatefulWidget {
+  final String meetingId, token, displayName;
+  final bool micEnabled, webcamEnabled, chatEnabled;
+  const MeetingScreen({
+    Key? key,
+    required this.meetingId,
+    required this.token,
+    required this.displayName,
+    this.micEnabled = true,
+    this.webcamEnabled = true,
+    this.chatEnabled = true,
+  }) : super(key: key);
+
+
+  @override
+  _MeetingScreenState createState() => _MeetingScreenState();
+}
+
+class _MeetingScreenState extends State<MeetingScreen> {
+  // Recording Webhook
+  // SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
+  final flutterTts = FlutterTts();
+  final String recordingWebHookURL = "";
+  String meetingtext = "speak the command";
+  bool islistening = false;
+  bool webCamEnabled = true;
+  var _speech;
+  Future<bool> toggleRecording({
     required Function(String text) onResult,
     required ValueChanged<bool> onListening,
   }) async {
@@ -40,42 +69,12 @@ class SpeechApi {
 
     return isAvailable;
   }
-}
-
-// Meeting Screen
-class MeetingScreen extends StatefulWidget {
-  final String meetingId, token, displayName;
-  final bool micEnabled, webcamEnabled, chatEnabled;
-  const MeetingScreen({
-    Key? key,
-    required this.meetingId,
-    required this.token,
-    required this.displayName,
-    this.micEnabled = true,
-    this.webcamEnabled = true,
-    this.chatEnabled = true,
-  }) : super(key: key);
-
-  @override
-  _MeetingScreenState createState() => _MeetingScreenState();
-}
-
-class _MeetingScreenState extends State<MeetingScreen> {
-  // Recording Webhook
-  // SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
-  final flutterTts = FlutterTts();
-  final String recordingWebHookURL = "";
-  String text = "speak the command";
-  bool islistening = false;
 
   Meeting? meeting;
 
   // control states
   bool isRecordingOn = false;
   bool isLiveStreamOn = false;
-
   // List of controls
   List<MediaDeviceInfo> webcams = [];
   List<MediaDeviceInfo> mics = [];
@@ -88,46 +87,22 @@ class _MeetingScreenState extends State<MeetingScreen> {
   Stream? videoStream;
   Stream? audioStream;
   Stream? remoteParticipantShareStream;
+  bool micStatus = false;
   /// This has to happen only once per app
   @override
   void initState(){
     super.initState();
     flutterTts.speak("Call Connected");
+    _speech = SpeechToText();
 
     // _initSpeech();
   }
 
-  // void _initSpeech() async {
-  //   _speechEnabled = await _speechToText.initialize();
-  //   setState(() {});
-  // }
-  //
-  // void _startListening() async {
-  //   await _speechToText.listen(onResult: _onSpeechResult);
-  //   setState(() {});
-  //   print(_lastWords);
-  //   if(_lastWords=="disconnect"){
-  //     // startCall();
-  //     // _meeting.leave();
-  //   }
-  // }
 
   /// Manually stop the active speech recognition session
   /// Note that there are also timeouts that each platform enforces
   /// and the SpeechToText plugin supports setting timeouts on the
   /// listen method.
- // void _stopListening() async {
- //    await _speechToText.stop();
- //    setState(() {});
- //  }
- //
- //  /// This is the callback that the SpeechToText plugin calls when
- //  /// the platform returns recognized words.
- //  void _onSpeechResult(SpeechRecognitionResult result) {
- //    setState(() {
- //      _lastWords = result.recognizedWords;
- //    });
- //  }
 
 
   @override
@@ -146,7 +121,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         meetingId: widget.meetingId,
         displayName: widget.displayName,
         token: widget.token,
-        micEnabled: widget.micEnabled,
+        micEnabled: micStatus,
         webcamEnabled: widget.webcamEnabled,
         notification: const NotificationInfo(
           title: "Video SDK",
@@ -189,7 +164,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
           return Scaffold(
             backgroundColor: Theme.of(context).backgroundColor.withOpacity(0.8),
             floatingActionButton: MeetingActionBar(
-              isMicEnabled: audioStream != null,
+              isMicEnabled: audioStream!=null,
               isWebcamEnabled: videoStream != null,
               isScreenShareEnabled: shareStream != null,
               isScreenShareButtonDisabled: remoteParticipantShareStream != null,
@@ -199,6 +174,13 @@ class _MeetingScreenState extends State<MeetingScreen> {
               },
               // Called when mic button is pressed
               onMicButtonPressed: () {
+                // if(micStatus==true){
+                //   micStatus=false;
+                // }
+                // else{
+                //   micStatus = true;
+                // }
+                // print(micStatus);
                 if (audioStream != null) {
                   _meeting.muteMic();
                 } else {
@@ -209,6 +191,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
               onWebcamButtonPressed: () {
                 if (videoStream != null) {
                   _meeting.disableWebcam();
+
                 } else {
                   _meeting.enableWebcam();
                 }
@@ -351,7 +334,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       Expanded(
                         child: ParticipantGridView(meeting: meeting!),
                       ),
-                      // Text(text),
+                      Text(meetingtext),
                       Container(
                         color: Colors.blueAccent,
                         child: IconButton(
@@ -361,14 +344,16 @@ class _MeetingScreenState extends State<MeetingScreen> {
                           tooltip: 'Listen',
                           // onPressed: (){},
                           onPressed: ()  async {
+                            islistening = true;
                             _meeting.muteMic();
-                            toggleRecording(_meeting);
-                            if(islistening){
-                              _meeting.muteMic();
-                            }
-                            else {
-                              _meeting.unmuteMic();
-                            }
+                            await toggle(_meeting);
+                            islistening = false;
+                            // if(islistening){
+                            //   _meeting.muteMic();
+                            // }
+                            // else {
+                            //   _meeting.unmuteMic();
+                            // }
                           },
 
                           padding: EdgeInsets.symmetric(vertical: 100,horizontal: 200),
@@ -400,16 +385,57 @@ class _MeetingScreenState extends State<MeetingScreen> {
       ),
     );
   }
-  Future toggleRecording(_meeting) =>
-    SpeechApi.toggleRecording(
-        onResult: (text) => setState(() => this.text = text),
-        onListening: (listening) {
-          setState(() => islistening = listening);
-          if (!listening) {
-            if (text == "disconnect") {
-                  _meeting.leave();
+  Future toggle(_meeting) =>
+    toggleRecording(
+        onResult: (text) async{
+          setState(() => this.meetingtext = text);
+          // flutterTts.speak(meetingtext);
+            if(meetingtext==""){
+
             }
-          }
+            else if (meetingtext == "disconnect") {
+              this.meetingtext="";
+              _meeting.leave();
+            }
+            // else if (meetingtext == "video") {
+            //   this.meetingtext="";
+            //   _meeting.enableWebCam();
+            // }
+            else if (meetingtext == "video") {
+              this.meetingtext="";
+              if (videoStream != null) {
+                _meeting.disableWebcam();
+
+              } else {
+                _meeting.enableWebcam();
+              }
+            }
+            else if (meetingtext == "start"){
+              this.meetingtext="";
+              _meeting.startRecording(recordingWebHookURL);
+            }
+            else if (meetingtext == "stop"){
+              this.meetingtext="";
+              _meeting.stopRecording();
+            }
+            else{
+              this.meetingtext="";
+              // flutterTts.speak("Invalid Command please try again");
+            }
+            this.meetingtext="";
+        },
+        onListening: (listening) {
+          // setState(() => islistening = listening);
+          // flutterTts.speak(meetingtext);
+          // if (!listening) {
+          //   if(meetingtext==""){
+          //
+          //   }
+          //   else if (meetingtext == "disconnect") {
+          //         _meeting.leave();
+          //   }
+          //   this.meetingtext="";
+          // }
         }
     );
 
@@ -460,40 +486,40 @@ class _MeetingScreenState extends State<MeetingScreen> {
       });
 
       // Called when mic is requested
-      meeting.on(Events.micRequested, (_data) {
-        log("_data => $_data");
-        dynamic accept = _data['accept'];
-        dynamic reject = _data['reject'];
-
-        log("accept => $accept reject => $reject");
-
-        // Mic Request Dialog
-        showDialog(
-          context: navigatorKey.currentContext!,
-          builder: (context) => AlertDialog(
-            title: const Text("Mic requested?"),
-            content: const Text("Do you want to turn on your mic? "),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  reject();
-
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Reject"),
-              ),
-              TextButton(
-                onPressed: () {
-                  accept();
-
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Accept"),
-              ),
-            ],
-          ),
-        );
-      });
+      // meeting.on(Events.micRequested, (_data) {
+      //   log("_data => $_data");
+      //   dynamic accept = _data['accept'];
+      //   dynamic reject = _data['reject'];
+      //
+      //   log("accept => $accept reject => $reject");
+      //
+      //   // Mic Request Dialog
+      //   showDialog(
+      //     context: navigatorKey.currentContext!,
+      //     builder: (context) => AlertDialog(
+      //       title: const Text("Mic requested?"),
+      //       content: const Text("Do you want to turn on your mic? "),
+      //       actions: [
+      //         TextButton(
+      //           onPressed: () {
+      //             reject();
+      //
+      //             Navigator.of(context).pop();
+      //           },
+      //           child: const Text("Reject"),
+      //         ),
+      //         TextButton(
+      //           onPressed: () {
+      //             accept();
+      //
+      //             Navigator.of(context).pop();
+      //           },
+      //           child: const Text("Accept"),
+      //         ),
+      //       ],
+      //     ),
+      //   );
+      // });
 
       // Called when webcam is requested
       meeting.on(Events.webcamRequested, (_data) {

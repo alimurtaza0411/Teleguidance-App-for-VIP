@@ -35,7 +35,6 @@ class MeetingActionBar extends StatelessWidget {
     required this.onScreenShareButtonPressed,
     required this.onMoreButtonPressed,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,7 +78,7 @@ class MeetingActionBar extends StatelessWidget {
                 child: MeetingActionButton(
                   onPressed: onMicButtonPressed,
                   backgroundColor:
-                      isMicEnabled ? hoverColor : secondaryColor.withOpacity(0.8),
+                      isMicEnabled? hoverColor : secondaryColor.withOpacity(0.8),
                   icon: isMicEnabled ? Icons.mic : Icons.mic_off,
                 ),
               ),

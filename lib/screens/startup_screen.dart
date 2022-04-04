@@ -22,31 +22,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 
-// class SpeechApi {
-//   final _speech = SpeechToText();
-//
-//   Future<bool> toggleRecording({
-//     required Function(String text) onResult,
-//     required ValueChanged<bool> onListening,
-//   }) async {
-//     if (_speech.isListening) {
-//       _speech.stop();
-//       return true;
-//     }
-//
-//     final isAvailable = await _speech.initialize(
-//       onStatus: (status) => onListening(_speech.isListening),
-//       onError: (e) => print('Error: $e'),
-//     );
-//
-//     if (isAvailable) {
-//       _speech.listen(onResult: (value) => onResult(value.recognizedWords));
-//     }
-//
-//     return isAvailable;
-//   }
-// }
-
 // Startup Screen
 class StartupScreen extends StatefulWidget {
   const StartupScreen({Key? key}) : super(key: key);
@@ -58,13 +33,10 @@ class StartupScreen extends StatefulWidget {
 class _StartupScreenState extends State<StartupScreen> {
   String _token = "";
   String _meetingID = "";
-  final _speech = SpeechToText();
-  // SpeechToText _speechToText = SpeechToText();
-  // bool _speechEnabled = false;
-  // String _lastWords = '';
   final flutterTts = FlutterTts();
   String text = "speak the command";
   bool islistening = false;
+  var _speech;
   void logout() async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
@@ -75,7 +47,9 @@ class _StartupScreenState extends State<StartupScreen> {
   void initState(){
     super.initState();
     fetchToken().then((token) => setState(() => _token = token));
-    flutterTts.speak("Welcome to Guide Me App");
+    flutterTts.speak("There are 20 registered volunteers available to assist you. If you need help, tap on mic and say help anytime");
+    islistening = false;
+    _speech = SpeechToText();
     // _initSpeech();
   }
   Future<bool> toggleRecording({
@@ -100,52 +74,7 @@ class _StartupScreenState extends State<StartupScreen> {
   }
 
   /// This has to happen only once per app
-  // void _initSpeech() async {
-  //   _speechEnabled = await _speechToText.initialize();
-  //   setState(() {});
-  // }
-  //
-  // /// Each time to start a speech recognition session
-  // void _startListening() async {
-  //   await _speechToText.listen(onResult: _onSpeechResult);
-  //   setState(() {});
-  // }
-  //
-  // /// Manually stop the active speech recognition session
-  // /// Note that there are also timeouts that each platform enforces
-  // /// and the SpeechToText plugin supports setting timeouts on the
-  // /// listen method.
-  // void _stopListening() async {
-  //   await _speechToText.stop();
-  //   print(_lastWords);
-  //   // print(_lastWords);print(_lastWords);
-  //   // print(_lastWords);
-  //   // print(_lastWords);
-  //
-  //
-  //   if(_lastWords=="connect"){
-  //     startCall();
-  //   }
-  //   else if(_lastWords=="settings"){
-  //     Navigator.push(context,
-  //         MaterialPageRoute(
-  //             builder: (context) => const SettingScreen()));
-  //   }
-  //   else if(_lastWords=="profile"){
-  //     Navigator.push(context,
-  //         MaterialPageRoute(
-  //             builder: (context) => ProfileScreen()));
-  //   }
-  //   setState(() {});
-  // }
-  //
-  // /// This is the callback that the SpeechToText plugin calls when
-  // /// the platform returns recognized words.
-  // void _onSpeechResult(SpeechRecognitionResult result) {
-  //   setState(() {
-  //     _lastWords = result.recognizedWords;
-  //   });
-  // }
+
 
   void startCall() async {
     _meetingID = await createMeeting();
@@ -155,7 +84,7 @@ class _StartupScreenState extends State<StartupScreen> {
         builder: (context) => MeetingScreen(
           token: _token,
           meetingId: _meetingID,
-          displayName: "Person",
+          displayName: "Shiv Dube",
         ),
       ),
     );
@@ -163,9 +92,9 @@ class _StartupScreenState extends State<StartupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future _speak() async{
-        await flutterTts.speak("Welcome to Guide Me App");
-    }
+    // Future _speak() async{
+    //     await flutterTts.speak("Welcome to Guide Me App");
+    // }
     final ButtonStyle _buttonStyle = TextButton.styleFrom(
       primary: Colors.white,
       backgroundColor: Theme.of(context).primaryColor,
@@ -254,11 +183,15 @@ class _StartupScreenState extends State<StartupScreen> {
                   //   style: _buttonStyle,
                   //   child: const Text("JOIN MEETING"),
                   // ),
-                  Text(text),
+                  // Text(text),
                   Container(
                     color: Colors.blueAccent,
                     child: IconButton(
-                      onPressed: toggle,
+                      onPressed: () async{
+                        islistening = true;
+                        await toggle();
+                        islistening = false;
+                      },
                       tooltip: 'Listen',
                       icon: Icon(islistening
                           ? Icons.mic
@@ -305,31 +238,72 @@ class _StartupScreenState extends State<StartupScreen> {
     );
   }
   Future toggle() => toggleRecording(
-          onResult: (text) => setState(() => this.text = text),
-          onListening: (listening){
-            setState(() => islistening = listening);
-            if(!listening){
-              if(text=="connect"){
-                // flutterTts.speak("There are 114 registered volunteers available to assist you");
-                // flutterTts.speak("If you need help, tap on mic and say help anytime");
-                startCall();
-              }
-              else if(text=="settings"){
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingScreen()));
-              }
-              else if(text=="profile"){
-                // flutterTts.speak("You are in Profile");
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfileScreen()));
-              }
-              else
-                {
-                  flutterTts.speak("Sorry couldn't hear you");
-                }
+          onResult: (text) async{
+            setState(() => this.text = text);
+            if(text==""){
+
             }
+            else if(text=="connect"){
+              text = "";
+              startCall();
+            }
+            else if(text=="settings") {
+              text = "";
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingScreen()));
+            }
+            else if(text=="profile"){
+              text = "";
+              // flutterTts.speak("You are in Profile");
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfileScreen()));
+            }
+            else if(text=="logout"){
+              text = "";
+              logout();
+            }
+            else
+            {
+              text = "";
+              flutterTts.speak("Invalid command Please try again.");
+            }
+            text = "";
+          },
+          onListening: (listening) {
+            // setState(() => islistening = listening);
+            // if(!listening){
+            //   if(text==""){
+            //
+            //   }
+            //   else if(text=="connect"){
+            //     text = "";
+            //     startCall();
+            //   }
+            //   else if(text=="settings") {
+            //     text = "";
+            //     Navigator.push(context,
+            //         MaterialPageRoute(
+            //             builder: (context) => const SettingScreen()));
+            //   }
+            //   else if(text=="profile"){
+            //     text = "";
+            //     // flutterTts.speak("You are in Profile");
+            //     Navigator.push(context,
+            //         MaterialPageRoute(
+            //             builder: (context) => ProfileScreen()));
+            //   }
+            //   else if(text=="logout"){
+            //     text = "";
+            //     logout();
+            //   }
+            //   else
+            //     {
+            //       flutterTts.speak("Invalid command Please try again.");
+            //     }
+            // }
+            // text = "";
           }
   );
 
