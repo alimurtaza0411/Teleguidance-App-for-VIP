@@ -42,7 +42,7 @@ class _SettingScreenState extends State<SettingScreen> {
             title: Text('Common'),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                leading: Icon(Icons.language),
+                leading: Icon(Icons.format_color_text ),
                 title: Text('Language'),
                 value: Text('English'),
               ),
@@ -51,6 +51,27 @@ class _SettingScreenState extends State<SettingScreen> {
                 initialValue: true,
                 leading: Icon(Icons.format_paint),
                 title: Text('Enable custom theme'),
+              ),
+              SettingsTile.navigation(
+                leading: Icon(Icons.language),
+                title: Text('GuideMe '),
+                value: Text('V2.1'),
+              ),
+              SettingsTile.switchTile(
+                onToggle: (value) {},
+                initialValue: true,
+                leading: Icon(Icons.mode_night ),
+                title: Text('Enable Night Mode'),
+              ),
+              SettingsTile.navigation(
+                leading: Icon(Icons.arrow_drop_down),
+                title: Text('Change Voice Actor'),
+                value: Text('Kiara'),
+              ),
+              SettingsTile.navigation(
+                leading: Icon(Icons.language),
+                title: Text('Call Guideme Helpline'),
+                value: Text('Toll-free'),
               ),
             ],
           ),
