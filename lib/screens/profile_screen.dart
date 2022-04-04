@@ -189,7 +189,7 @@ class ProfileScreen extends StatelessWidget {
             height: 20.0,
           ),
           Container(
-            width: 300.00,
+            width: 500.00,
 
             child: RaisedButton(
                 onPressed: (){},
@@ -208,15 +208,30 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    constraints: const BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                    constraints: const BoxConstraints(maxWidth: 500, minHeight: 250.0),
                     alignment: Alignment.center,
-                    child: const Text("Contact me",
-                      style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight:FontWeight.w300),
-                    ),
+                    child: Icon(islistening
+                            ? Icons.mic
+                            : Icons.mic_off)
                   ),
                 )
             ),
           ),
+          // Container(
+          //   color: Colors.blueAccent,
+          //   child: IconButton(
+          //     onPressed: () async{
+          //       islistening = true;
+          //       islistening = false;
+          //     },
+          //     tooltip: 'Listen',
+          //     icon: Icon(islistening
+          //         ? Icons.mic
+          //         : Icons.mic_off),
+          //     padding: EdgeInsets.all(200.0),
+          //
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -252,21 +267,6 @@ class ProfileScreen extends StatelessWidget {
                 icon: const Icon(Icons.logout),
               ),
             ],
-          ),
-          Container(
-            color: Colors.blueAccent,
-            child: IconButton(
-              onPressed: () async{
-                islistening = true;
-                islistening = false;
-              },
-              tooltip: 'Listen',
-              icon: Icon(islistening
-                  ? Icons.mic
-                  : Icons.mic_off),
-              padding: EdgeInsets.all(100.0),
-
-            ),
           ),
         ],
       ),
