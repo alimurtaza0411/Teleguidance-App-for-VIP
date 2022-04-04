@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:videosdk/rtc.dart';
-import 'package:videosdk_flutter_example/api/speech_api.dart';
+// import 'package:videosdk_flutter_example/api/speech_api.dart';
 import '/screens/chat_screen.dart';
 
 import '../../navigator_key.dart';
@@ -16,6 +16,31 @@ import 'startup_screen.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+
+class SpeechApi {
+  static final _speech = SpeechToText();
+
+  static Future<bool> toggleRecording({
+    required Function(String text) onResult,
+    required ValueChanged<bool> onListening,
+  }) async {
+    if (_speech.isListening) {
+      _speech.stop();
+      return true;
+    }
+
+    final isAvailable = await _speech.initialize(
+      onStatus: (status) => onListening(_speech.isListening),
+      onError: (e) => print('Error: $e'),
+    );
+
+    if (isAvailable) {
+      _speech.listen(onResult: (value) => onResult(value.recognizedWords));
+    }
+
+    return isAvailable;
+  }
+}
 
 // Meeting Screen
 class MeetingScreen extends StatefulWidget {
@@ -326,22 +351,24 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       Expanded(
                         child: ParticipantGridView(meeting: meeting!),
                       ),
-                      Text(text),
+                      // Text(text),
                       Container(
                         color: Colors.blueAccent,
                         child: IconButton(
                           icon: Icon(islistening
-                              ? Icons.mic_off
-                              : Icons.mic),
+                              ? Icons.mic
+                              : Icons.mic_off),
                           tooltip: 'Listen',
-                          onPressed: () {
+                          // onPressed: (){},
+                          onPressed: ()  async {
+                            _meeting.muteMic();
+                            toggleRecording(_meeting);
                             if(islistening){
                               _meeting.muteMic();
                             }
-                            else{
+                            else {
                               _meeting.unmuteMic();
                             }
-                            toggleRecording(_meeting);
                           },
 
                           padding: EdgeInsets.symmetric(vertical: 100,horizontal: 200),
@@ -373,7 +400,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
       ),
     );
   }
-  Future toggleRecording(_meeting) async {
+  Future toggleRecording(_meeting) =>
     SpeechApi.toggleRecording(
         onResult: (text) => setState(() => this.text = text),
         onListening: (listening) {
@@ -385,7 +412,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
           }
         }
     );
-  }
+
 
     void setMeetingListeners(Meeting meeting) {
       // Called when meeting is ended

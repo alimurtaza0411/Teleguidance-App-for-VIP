@@ -41,7 +41,7 @@ class _guidelineState extends State<guideline> {
     flutterTts.speak("Here are the things you should know before using this app");
     flutterTts.speak(guide);
 
-    Timer(const Duration(seconds: 20), () {
+    Timer(const Duration(seconds: 1), () {
 
 
       Navigator.pushReplacement(context,

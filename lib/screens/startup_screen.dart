@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:videosdk_flutter_example/api/speech_api.dart';
+// import 'package:videosdk_flutter_example/api/speech_api.dart';
 import 'package:videosdk_flutter_example/screens/profile_screen.dart';
 import 'package:videosdk_flutter_example/screens/settings_screen.dart';
 import 'package:videosdk_flutter_example/screens/start_screen.dart';
@@ -18,6 +18,34 @@ import '../utils/toast.dart';
 import 'meeting_screen.dart';
 import 'start_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+
+
+// class SpeechApi {
+//   final _speech = SpeechToText();
+//
+//   Future<bool> toggleRecording({
+//     required Function(String text) onResult,
+//     required ValueChanged<bool> onListening,
+//   }) async {
+//     if (_speech.isListening) {
+//       _speech.stop();
+//       return true;
+//     }
+//
+//     final isAvailable = await _speech.initialize(
+//       onStatus: (status) => onListening(_speech.isListening),
+//       onError: (e) => print('Error: $e'),
+//     );
+//
+//     if (isAvailable) {
+//       _speech.listen(onResult: (value) => onResult(value.recognizedWords));
+//     }
+//
+//     return isAvailable;
+//   }
+// }
 
 // Startup Screen
 class StartupScreen extends StatefulWidget {
@@ -30,6 +58,7 @@ class StartupScreen extends StatefulWidget {
 class _StartupScreenState extends State<StartupScreen> {
   String _token = "";
   String _meetingID = "";
+  final _speech = SpeechToText();
   // SpeechToText _speechToText = SpeechToText();
   // bool _speechEnabled = false;
   // String _lastWords = '';
@@ -48,6 +77,26 @@ class _StartupScreenState extends State<StartupScreen> {
     fetchToken().then((token) => setState(() => _token = token));
     flutterTts.speak("Welcome to Guide Me App");
     // _initSpeech();
+  }
+  Future<bool> toggleRecording({
+    required Function(String text) onResult,
+    required ValueChanged<bool> onListening,
+  }) async {
+    if (_speech.isListening) {
+      _speech.stop();
+      return true;
+    }
+
+    final isAvailable = await _speech.initialize(
+      onStatus: (status) => onListening(_speech.isListening),
+      onError: (e) => print('Error: $e'),
+    );
+
+    if (isAvailable) {
+      _speech.listen(onResult: (value) => onResult(value.recognizedWords));
+    }
+
+    return isAvailable;
   }
 
   /// This has to happen only once per app
@@ -209,7 +258,7 @@ class _StartupScreenState extends State<StartupScreen> {
                   Container(
                     color: Colors.blueAccent,
                     child: IconButton(
-                      onPressed: toggleRecording,
+                      onPressed: toggle,
                       tooltip: 'Listen',
                       icon: Icon(islistening
                           ? Icons.mic
@@ -255,14 +304,14 @@ class _StartupScreenState extends State<StartupScreen> {
       ),
     );
   }
-  Future toggleRecording() => SpeechApi.toggleRecording(
+  Future toggle() => toggleRecording(
           onResult: (text) => setState(() => this.text = text),
           onListening: (listening){
             setState(() => islistening = listening);
             if(!listening){
               if(text=="connect"){
-                flutterTts.speak("There are 114 registered volunteers available to assist you");
-                flutterTts.speak("If you need help, tap on mic and say help anytime");
+                // flutterTts.speak("There are 114 registered volunteers available to assist you");
+                // flutterTts.speak("If you need help, tap on mic and say help anytime");
                 startCall();
               }
               else if(text=="settings"){
