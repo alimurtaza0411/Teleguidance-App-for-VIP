@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:videosdk_flutter_example/screens/settings_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:videosdk_flutter_example/screens/start_screen.dart';
@@ -9,7 +10,29 @@ import 'package:videosdk_flutter_example/screens/startup_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   final flutterTts = FlutterTts();
-  _speech = SpeechToText();
+  var _speech = SpeechToText();
+  String profiletext = "speak the command";
+  bool islistening = false;
+  Future<bool> toggleRecording({
+    required Function(String text) onResult,
+    required ValueChanged<bool> onListening,
+  }) async {
+    if (_speech.isListening) {
+      _speech.stop();
+      return true;
+    }
+
+    final isAvailable = await _speech.initialize(
+      onStatus: (status) => onListening(_speech.isListening),
+      onError: (e) => print('Error: $e'),
+    );
+
+    if (isAvailable) {
+      _speech.listen(onResult: (value) => onResult(value.recognizedWords));
+    }
+
+    return isAvailable;
+  }
   @override
   void initState(){
   }
@@ -235,7 +258,6 @@ class ProfileScreen extends StatelessWidget {
             child: IconButton(
               onPressed: () async{
                 islistening = true;
-                await toggle();
                 islistening = false;
               },
               tooltip: 'Listen',
