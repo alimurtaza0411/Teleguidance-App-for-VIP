@@ -334,7 +334,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       Expanded(
                         child: ParticipantGridView(meeting: meeting!),
                       ),
-                      Text(meetingtext),
+                      // Text(meetingtext),
                       Container(
                         color: Colors.blueAccent,
                         child: IconButton(
@@ -401,7 +401,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
             //   this.meetingtext="";
             //   _meeting.enableWebCam();
             // }
-            else if (meetingtext == "video") {
+            else if (meetingtext == "camera") {
               this.meetingtext="";
               if (videoStream != null) {
                 _meeting.disableWebcam();
@@ -417,6 +417,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
             else if (meetingtext == "stop"){
               this.meetingtext="";
               _meeting.stopRecording();
+            }
+            else if (meetingtext=="help"){
+              this.meetingtext="";
+              flutterTts.speak("You are currently in a call with volunteer. Your camera is switched on. You are on mute. To unmute use the command unmute.  And to  switch off camera use the command camera switch-off. for more commands use the command more.");
             }
             else{
               this.meetingtext="";

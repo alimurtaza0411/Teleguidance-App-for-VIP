@@ -17,10 +17,10 @@ class _guidelineState extends State<guideline> {
   String guide='''
   
   
-  Welcome to Guide Me app
+  Welcome to Guide Me app..
   This app is made for people who need assistance in their day to day activities.
    
-  There is a mic button on everywhere in the app and it is located at the bottom of the screen
+  There is a mic button everywhere in the app and it is located at the bottom of the screen.
   
   Press the mic and speak 'Help' to get help anytime''';
   Text guidelines= new Text('''                            Guidelines
@@ -28,7 +28,7 @@ class _guidelineState extends State<guideline> {
    Welcome to Guide Me app
   This app is made for people who need assistance in their day to day activities.
   
-  There is a mic button on everywhere in the app and it is located at the bottom of the screen
+  There is a mic button everywhere in the app and it is located at the bottom of the screen.
   
   Press the mic and speak 'Help' to get help anytime.''',maxLines: 20, style: TextStyle(fontSize: 26.0 ,fontWeight:FontWeight.bold,color: Colors.white70) , );
   @override
@@ -37,7 +37,7 @@ class _guidelineState extends State<guideline> {
     flutterTts.speak("Here are the things you should know before using this app");
     flutterTts.speak(guide);
 
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 15), () {
 
 
       Navigator.pushReplacement(context,

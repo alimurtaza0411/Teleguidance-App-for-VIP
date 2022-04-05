@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:videosdk_flutter_example/screens/login_screen.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:videosdk_flutter_example/screens/profile_screen.dart';
@@ -19,11 +20,35 @@ class _SettingScreenState extends State<SettingScreen> {
   bool lockInBackground = true;
   bool notificationsEnabled = true;
   bool isSwitched = false;
+  bool islistening = false;
+  var _speech;
+  String settingtext ="";
   final flutterTts = FlutterTts();
   @override
   void initState(){
     super.initState();
     flutterTts.speak("You are in settings");
+    _speech = SpeechToText();
+  }
+  Future<bool> toggleRecording({
+    required Function(String text) onResult,
+    required ValueChanged<bool> onListening,
+  }) async {
+    if (_speech.isListening) {
+      _speech.stop();
+      return true;
+    }
+
+    final isAvailable = await _speech.initialize(
+      onStatus: (status) => onListening(_speech.isListening),
+      onError: (e) => print('Error: $e'),
+    );
+
+    if (isAvailable) {
+      _speech.listen(onResult: (value) => onResult(value.recognizedWords));
+    }
+
+    return isAvailable;
   }
   void logout() async {
     await FirebaseAuth.instance.signOut();
@@ -79,4 +104,38 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
     );
   }
+  Future toggle() => toggleRecording(
+      onResult: (text) async{
+        setState(() => this.settingtext = text);
+        if(text==""){
+
+        }
+        else if(text=="settings") {
+          text = "";
+          Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (context) => const SettingScreen()));
+        }
+        else if(text=="home"){
+          text = "";
+          // flutterTts.speak("You are in Profile");
+          Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (context) => StartupScreen()));
+        }
+        else if(text=="logout"){
+          text = "";
+          logout();
+        }
+        else
+        {
+          text = "";
+          flutterTts.speak("Invalid command Please try again.");
+        }
+        text = "";
+      },
+      onListening: (listening) {
+
+      }
+  );
 }

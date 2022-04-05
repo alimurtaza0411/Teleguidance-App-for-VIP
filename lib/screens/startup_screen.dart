@@ -48,7 +48,6 @@ class _StartupScreenState extends State<StartupScreen> {
     super.initState();
     fetchToken().then((token) => setState(() => _token = token));
     flutterTts.speak("There are 20 registered volunteers available to assist you. If you need help, tap on mic and say help anytime");
-    islistening = false;
     _speech = SpeechToText();
     // _initSpeech();
   }
@@ -263,6 +262,10 @@ class _StartupScreenState extends State<StartupScreen> {
             else if(text=="logout"){
               text = "";
               logout();
+            }
+            else if(text=="help"){
+              text = "";
+              flutterTts.speak("You are currently on home page... You can connect to registered volunteer by using the mic button located at the bottom and saying the word connect or you can click on connect button on top of the screen... you can go to settings by settings command and on profile page using profile command.");
             }
             else
             {
