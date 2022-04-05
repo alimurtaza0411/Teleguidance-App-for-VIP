@@ -189,34 +189,42 @@ class ProfileScreen extends StatelessWidget {
             height: 20.0,
           ),
           Container(
-            width: 500.00,
-
-            child: RaisedButton(
-                onPressed: (){},
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0)
-                ),
-                elevation: 0.0,
-                padding: const EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [Color.fromRGBO(17, 120, 248, 1),Color.fromRGBO(17, 120, 248, 1)]
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 500, minHeight: 250.0),
-                    alignment: Alignment.center,
-                    child: Icon(islistening
-                            ? Icons.mic
-                            : Icons.mic_off)
-                  ),
-                )
-            ),
+              color: Colors.blueAccent,
+              constraints: const BoxConstraints(maxWidth: 500, minHeight: 200.0),
+              alignment: Alignment.center,
+              child: Icon(islistening
+                  ? Icons.mic
+                  : Icons.mic_off)
           ),
+          // Container(
+          //   width: 500.00,
+          //
+          //   child: RaisedButton(
+          //       onPressed: (){},
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(80.0)
+          //       ),
+          //       elevation: 0.0,
+          //       padding: const EdgeInsets.all(0.0),
+          //       child: Ink(
+          //         decoration: BoxDecoration(
+          //           gradient: const LinearGradient(
+          //               begin: Alignment.centerRight,
+          //               end: Alignment.centerLeft,
+          //               colors: [Color.fromRGBO(17, 120, 248, 1),Color.fromRGBO(17, 120, 248, 1)]
+          //           ),
+          //           borderRadius: BorderRadius.circular(30.0),
+          //         ),
+          //         child: Container(
+          //           constraints: const BoxConstraints(maxWidth: 500, minHeight: 250.0),
+          //           alignment: Alignment.center,
+          //           child: Icon(islistening
+          //                   ? Icons.mic
+          //                   : Icons.mic_off)
+          //         ),
+          //       )
+          //   ),
+          // ),
           // Container(
           //   color: Colors.blueAccent,
           //   child: IconButton(

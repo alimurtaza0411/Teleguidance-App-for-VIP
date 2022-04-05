@@ -20,7 +20,7 @@ class _guidelineState extends State<guideline> {
   Welcome to Guide Me app
   This app is made for people who need assistance in their day to day activities.
    
-  Tap and speak connect to start the calling. Once done, a volunteer will connect you.
+  There is a mic button on everywhere in the app and it is located at the bottom of the screen
   
   Press the mic and speak 'Help' to get help anytime''';
   Text guidelines= new Text('''                            Guidelines
@@ -28,7 +28,7 @@ class _guidelineState extends State<guideline> {
    Welcome to Guide Me app
   This app is made for people who need assistance in their day to day activities.
   
-  Tap and speak connect to start the calling. Once done, a volunteer will connect you.
+  There is a mic button on everywhere in the app and it is located at the bottom of the screen
   
   Press the mic and speak 'Help' to get help anytime.''',maxLines: 20, style: TextStyle(fontSize: 26.0 ,fontWeight:FontWeight.bold,color: Colors.white70) , );
   @override
